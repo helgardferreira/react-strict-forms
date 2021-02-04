@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 
 import { StrictForm, useForm, useErrors } from 'react-strict-forms'
 import { LoginFields } from './login.fields'
@@ -9,10 +9,6 @@ const Login: FunctionComponent = () => {
   const errors = useErrors()
 
   console.log(JSON.stringify(errors, null, 2))
-
-  useEffect(() => {
-    setFieldValue('username', 'john.doe')
-  }, [setFieldValue])
 
   return (
     <div>

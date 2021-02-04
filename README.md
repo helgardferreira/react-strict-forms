@@ -13,15 +13,68 @@ npm install --save react-strict-forms
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
+import { StrictForm, useForm, FormFields, useErrors } from 'react-strict-forms'
+import { IsNotEmpty, IsString } from 'class-validator'
 
-import MyComponent from 'react-strict-forms'
-import 'react-strict-forms/dist/index.css'
+export class LoginFields extends FormFields {
+  @IsNotEmpty()
+  @IsString()
+  username: string
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
+  @IsNotEmpty()
+  @IsString()
+  password: string
+
+  constructor(username = '', password = '') {
+    super()
+    this.username = username
+    this.password = password
   }
+}
+
+const Login: FunctionComponent = () => {
+  const [{ username, password }, setFieldValue] = useForm<LoginFields>()
+
+  const errors = useErrors()
+
+  console.log(errors)
+
+  return (
+    <div>
+      React Strict Forms Example{' '}
+      <span role='img' aria-label='smiling emoji'>
+        😄
+      </span>
+      '
+      <input
+        type='text'
+        name='username'
+        id='username'
+        value={username}
+        onChange={setFieldValue('username')}
+      />
+      <input
+        type='password'
+        name='password'
+        id='password'
+        value={password}
+        onChange={setFieldValue('password')}
+      />
+      <input type='submit' value='Submit' />
+    </div>
+  )
+}
+
+const Example = () => {
+  return (
+    <StrictForm
+      fields={new LoginFields('', '')}
+      handleSubmit={(fields) => console.log(fields)}
+    >
+      <Login />
+    </StrictForm>
+  )
 }
 ```
 
