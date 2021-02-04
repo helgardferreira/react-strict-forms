@@ -1,10 +1,56 @@
-import React from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 
-import { ExampleComponent } from 'react-strict-forms'
-import 'react-strict-forms/dist/index.css'
+import { StrictForm, useForm, useErrors } from 'react-strict-forms'
+import { LoginFields } from './login.fields'
+
+const Login: FunctionComponent = () => {
+  const [{ username, password }, setFieldValue] = useForm<LoginFields>()
+
+  const errors = useErrors()
+
+  console.log(JSON.stringify(errors, null, 2))
+
+  useEffect(() => {
+    setFieldValue('username', 'john.doe')
+  }, [setFieldValue])
+
+  return (
+    <div>
+      React Strict Forms Example{' '}
+      <span role='img' aria-label='smiling emoji'>
+        😄
+      </span>
+      '
+      <input
+        type='text'
+        name='username'
+        id='username'
+        value={username}
+        onChange={setFieldValue('username')}
+      />
+      <input
+        type='password'
+        name='password'
+        id='password'
+        value={password}
+        onChange={setFieldValue('password')}
+      />
+      <input type='submit' value='Submit' />
+    </div>
+  )
+}
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  console.log('rendering App...')
+
+  return (
+    <StrictForm
+      fields={new LoginFields('', '')}
+      handleSubmit={(fields) => console.log(fields)}
+    >
+      <Login />
+    </StrictForm>
+  )
 }
 
 export default App
