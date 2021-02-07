@@ -13,7 +13,7 @@ npm install --save react-strict-forms
 ## Usage
 
 ```tsx
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 import { StrictForm, useForm, FormFields, useErrors } from 'react-strict-forms'
 import { IsNotEmpty, IsString } from 'class-validator'
 
@@ -34,11 +34,18 @@ export class LoginFields extends FormFields {
 }
 
 const Login: FunctionComponent = () => {
-  const [{ username, password }, setFieldValue] = useForm<LoginFields>()
+  const [
+    {
+      fields: { username, password },
+      isDirty
+    },
+    setFieldValue
+  ] = useForm<LoginFields>()
 
   const errors = useErrors()
 
-  console.log(errors)
+  console.log(errors.length)
+  console.log(isDirty())
 
   return (
     <div>

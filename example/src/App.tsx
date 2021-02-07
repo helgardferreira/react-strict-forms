@@ -4,11 +4,18 @@ import { StrictForm, useForm, useErrors } from 'react-strict-forms'
 import { LoginFields } from './login.fields'
 
 const Login: FunctionComponent = () => {
-  const [{ username, password }, setFieldValue] = useForm<LoginFields>()
+  const [
+    {
+      fields: { username, password },
+      isDirty
+    },
+    setFieldValue
+  ] = useForm<LoginFields>()
 
   const errors = useErrors()
 
-  console.log(JSON.stringify(errors, null, 2))
+  console.log(errors.length)
+  console.log(isDirty())
 
   return (
     <div>
@@ -37,8 +44,6 @@ const Login: FunctionComponent = () => {
 }
 
 const App = () => {
-  console.log('rendering App...')
-
   return (
     <StrictForm
       fields={new LoginFields('', '')}
