@@ -27,7 +27,8 @@
     "react": "^16.0.0"
   },
   "dependencies": {
-    "class-validator": "^0.13.1"
+    "class-validator": "^0.13.1",
+    "react-fast-compare": "^3.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",

@@ -1,4 +1,5 @@
-import { useReducer, useContext, useCallback } from 'react'
+import { useReducer, useContext, useCallback, useMemo } from 'react'
+import isEqual from 'react-fast-compare'
 
 import FormContext from '../components/form/context'
 import FormFields from '../components/form/fields'
@@ -45,9 +46,13 @@ export default function useForm<T extends FormFields>() {
   if (form === undefined && process.env.NODE_ENV !== 'production')
     throw new Error('useForm must be used within a FormProvider')
 
-  const formFields: FormFieldData<T> = form.fields as FormFieldData<T>
-
   const setFieldValue = useCallback(createSetFieldValue(form), [form])
 
-  return [formFields, setFieldValue] as const
+  const isDirty = useCallback(() => !isEqual(form.initialFields, form.fields), [
+    form
+  ])
+
+  const state = useMemo(() => ({ fields: form.fields, isDirty }), [form])
+
+  return [state, setFieldValue] as const
 }

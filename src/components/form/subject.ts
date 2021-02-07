@@ -15,7 +15,8 @@ interface FormObserver {
 // i.e. errors returned from form validation
 export default class FormSubject<T extends FormFields = any> {
   // naming things is hard...
-  fields: FormFieldData<T>
+  fields: FormFieldData<T> = {} as any
+  readonly initialFields: FormFieldData<T> = {} as any
 
   private _fields: T
   private _errors: ValidationError[]
@@ -24,11 +25,11 @@ export default class FormSubject<T extends FormFields = any> {
   constructor(fields: T) {
     // naming things is hard...
     this._fields = fields
-    this.fields = {} as any
 
     for (const [k, v] of Object.entries(fields)) {
       if (typeof v !== 'function') {
         this.fields[k] = v
+        this.initialFields[k] = v
       }
     }
 
